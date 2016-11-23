@@ -29,42 +29,71 @@ $(function () {
         console.log('Клик по кнопке');
         // $.ajax({
         //     type: "GET",
-        //     url: "http://t2.alexlans.com/test/src/promises.js",
+        //     url: "/test/src/promises.js",
         //     dataType: "script"
         // });
 
+        // Запрос без параметров
+
         $.ajax({
             type: "GET",
-            url: "http://t2.alexlans.com/test/getForecast.js",
+            url: "./getForecast.js",
             dataType: "script",
             success: success
         });
 
-        $.ajax({
-            type: "GET",
-            url: "http://t2.alexlans.com/test/ajax-tunel.js",
-            dataType: "script"
-        });
+        // $.ajax({
+        //     type: "GET",
+        //     url: "/test/ajax-tunel.js",
+        //     dataType: "script"
+        // });
 
         // $.ajax({
         //     type: "GET",
-        //     url: "http://t2.alexlans.com/test/getForecast.json",
+        //     url: "/test/getForecast.json",
         //     dataType: "json",
-        //     success: 
+        //     success:
         //     function success3(data) {
         //         console.log('Success3!!!');
         //         document.write(data);
         //     }
         // });
 
-        // var data = { city: "Васюки", date: "20120318" };
-        // $.get("http://t2.alexlans.com/test/getForecast.json", data, success2, "json");
-
         function success() {
             console.log('Success!!!');
             var forecast = forecastData.city + ", прогноз на " + forecastData.date;
             forecast += ": " + forecastData.forecast + ". Максимальная температура: " + forecastData.maxTemp + "C";
-            console.log('А вот и сам forcast: ', forecast);
+            console.log('А вот и сам прогноз: ', forecast);
+        }
+
+        // Запрос с параметрами
+
+        // Заполнение таблицы pogoda
+        var mass = { city: "Черкассы", date: "20120318" };
+        $.get("./getForecast.json", mass, function (data) {
+            for (var i = 0; i < data.cityes.length; i++) {
+                $('#pogoda').append('<tr><td>' + data.cityes[i].city + '</td><td>' + data.cityes[i].date + '</td><td>' + data.cityes[i].forecast + '</td><td>' + data.cityes[i].maxTemp + '</td><tr>');
+            }
+        }, "json");
+
+        // Заполнение таблицы users
+        $.get("./users.json", function (data) {
+            for (var i = 0; i < data.users.length; i++) {
+                $('#users').append('<tr><td>' + data.users[i].id + '</td><td>' + data.users[i].name + '</td><td>' + data.users[i].age + '</td><tr>');
+            }
+        }, "json");
+
+        // Прогноз по параметру city
+        var data = { city: "Черкассы", date: "20120318" };
+        $.get("./getForecast.json", data, success4, "json");
+
+        function success4(Data) {
+            console.log('Success with parameters!!!');
+            for (var i = 0; i < Data.cityes.length; i++) {
+                if (Data.cityes[i].city === data.city) {
+                    console.log('А вот и сам прогноз: ' + Data.cityes[i].city + ", прогноз на " + Data.cityes[i].date + ":  " + Data.cityes[i].forecast + ". Максимальная температура: " + Data.cityes[i].maxTemp + "C");
+                }
+            }
         }
 
         function success2(html) {
@@ -74,14 +103,14 @@ $(function () {
     });
 });
 
-// Новый тест 2
+// Новый тест 2 разные типы запросов
 
 
 function SendGet() {
     //отправляю GET запрос и получаю ответ
     $$a({
         type: 'get', //тип запроса: get,post либо head
-        url: 'http://t2.alexlans.com/test/ajax.php', //url адрес файла обработчика
+        url: '/test/ajax.php', //url адрес файла обработчика
         data: { 'q': '1' }, //параметры запроса
         response: 'text', //тип возвращаемого ответа text либо xml
         success: function success(data) {
@@ -95,7 +124,7 @@ function SendPost() {
     //отправляю POST запрос и получаю ответ
     $$a({
         type: 'post', //тип запроса: get,post либо head
-        url: 'http://t2.alexlans.com/test/ajax.php', //url адрес файла обработчика
+        url: '/test/ajax.php', //url адрес файла обработчика
         data: { 'z': '1' }, //параметры запроса
         response: 'text', //тип возвращаемого ответа text либо xml
         success: function success(data) {
@@ -109,7 +138,7 @@ function SendHead() {
     //отправляю HEAD запрос и получаю заголовок
     $$a({
         type: 'head', //тип запроса: get,post либо head
-        url: 'http://t2.alexlans.com/test/ajax.php', //url адрес файла обработчика
+        url: '/test/ajax.php', //url адрес файла обработчика
         response: 'text', //тип возвращаемого ответа text либо xml
         success: function success(data) {
             //возвращаемый результат от сервера
@@ -117,3 +146,36 @@ function SendHead() {
         }
     });
 }
+
+// Новый тест 3 с видеоурока https://www.youtube.com/watch?v=aw-wOOatKNI
+function ajax_test_3() {
+    var request = CreateRequest();
+    var url = location.href;
+
+    request.onreadystatechange = function () {
+        // только при состоянии 'complete'
+        if (request.readyState == 4) {}
+    };
+    // Запрос на сервер
+    request.open('GET', url, false);
+    request.send(null);
+    alert(request.responseText);
+}
+
+// $(function () {
+//     $.getJSON('./users.json', function (data) {
+//         for (var i = 0; i < data.users.length; i++) {
+//             $('#users').append('<tr><td>' + data.users[i].id + '</td><td>' + data.users[i].name +
+//                 '</td><td>' + data.users[i].age + '</td><tr>');
+//         }
+//     });
+// });
+
+// $(function () {
+//     $.getJSON('./getForecast.json', function (data) {
+//         for (var i = 0; i < data.cityes.length; i++) {
+//             $('#pogoda').append('<tr><td>' + data.cityes[i].city + '</td><td>' + data.cityes[i].date +
+//                 '</td><td>' + data.cityes[i].forecast + '</td><td>' + data.cityes[i].maxTemp + '</td><tr>');
+//         }
+//     });
+// });

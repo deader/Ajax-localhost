@@ -35,11 +35,11 @@ $(function () {
         //     dataType: "script"
         // });
 
-// Запрос без параметров
+        // Запрос без параметров
 
         $.ajax({
             type: "GET",
-            url: "/test/getForecast.js",
+            url: "./getForecast.js",
             dataType: "script",
             success: success
         });
@@ -65,21 +65,45 @@ $(function () {
             console.log('Success!!!');
             var forecast = forecastData.city + ", прогноз на " + forecastData.date;
             forecast += ": " + forecastData.forecast + ". Максимальная температура: " + forecastData.maxTemp + "C";
-            console.log('А вот и сам forcast: ', forecast);
+            console.log('А вот и сам прогноз: ', forecast);
         }
 
-// Запрос с параметрами
+        // Запрос с параметрами
 
-        var data = { city: "Васюки", date: "20120318" };
-        $.get("/test/getForecast.json", data, success4, "json");
+        // Заполнение таблицы pogoda
+        var mass = { city: "Черкассы", date: "20120318" };
+        $.get("./getForecast.json", mass, function (data) {
+            for (var i = 0; i < data.cityes.length; i++) {
+                $('#pogoda').append('<tr><td>' + data.cityes[i].city + '</td><td>' + data.cityes[i].date +
+                    '</td><td>' + data.cityes[i].forecast + '</td><td>' + data.cityes[i].maxTemp + '</td><tr>');
+            }
+        }, "json");
+
+        // Заполнение таблицы users
+        $.get("./users.json", function (data) {
+            for (var i = 0; i < data.users.length; i++) {
+                $('#users').append('<tr><td>' + data.users[i].id + '</td><td>' + data.users[i].name +
+                    '</td><td>' + data.users[i].age + '</td><tr>');
+            }
+        }, "json");
+
+        // Прогноз по параметру city
+        var data = { city: "Черкассы", date: "20120318" };
+        $.get("./getForecast.json", data, success4, "json");
 
         function success4(Data) {
-            console.log('Success!!!');
-            var forecast = Data.city + ", прогноз на " + Data.date;
-            forecast += ": " + Data.forecast + ". Максимальная температура: " + Data.maxTemp + "C";
-            console.log('А вот и сам forcast: ', forecast);
+            console.log('Success with parameters!!!');
+            for (var i = 0; i < Data.cityes.length; i++) {
+                if (Data.cityes[i].city === data.city) {
+                    console.log(
+                        'А вот и сам прогноз: '
+                        + Data.cityes[i].city 
+                        + ", прогноз на " + Data.cityes[i].date
+                        + ":  " + Data.cityes[i].forecast + ". Максимальная температура: " + Data.cityes[i].maxTemp + "C"
+                    );
+                }
+            }
         }
-
 
         function success2(html) {
             console.log('Success2!!!');
@@ -89,8 +113,6 @@ $(function () {
     });
 
 });
-
-
 
 
 // Новый тест 2 разные типы запросов
@@ -151,3 +173,21 @@ function ajax_test_3() {
     request.send(null);
     alert(request.responseText);
 }
+
+// $(function () {
+//     $.getJSON('./users.json', function (data) {
+//         for (var i = 0; i < data.users.length; i++) {
+//             $('#users').append('<tr><td>' + data.users[i].id + '</td><td>' + data.users[i].name +
+//                 '</td><td>' + data.users[i].age + '</td><tr>');
+//         }
+//     });
+// });
+
+// $(function () {
+//     $.getJSON('./getForecast.json', function (data) {
+//         for (var i = 0; i < data.cityes.length; i++) {
+//             $('#pogoda').append('<tr><td>' + data.cityes[i].city + '</td><td>' + data.cityes[i].date +
+//                 '</td><td>' + data.cityes[i].forecast + '</td><td>' + data.cityes[i].maxTemp + '</td><tr>');
+//         }
+//     });
+// });
