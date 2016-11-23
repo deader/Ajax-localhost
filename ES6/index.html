@@ -5,15 +5,26 @@
     <meta charset="UTF-8">
     <title>Основы ES6</title>
     <script src="node_modules/lodash/lodash.js"></script>
+    
     <!--<script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/jquery/dist/jquery.slim.min.js"></script>-->
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+    <script type="text/javascript" src="http://scriptjava.net/source/scriptjava/scriptjava.js"></script>
 </head>
 
 <body>
     <script src="src/ajax.js"></script>
 
     <button id="getForecast">Получить прогноз погоды</button>
+     <button onclick="ajax_test_3();">Получить код текущей страницы</button>
+
+    <div id="result">Тут будет ответ от сервера</div><br /><br />
+    <div onclick="SendGet();">Отправить GET запрос через Ajax</div><br />
+    <div onclick="SendPost();">Отправить POST запрос через Ajax</div><br />
+    <div onclick="SendHead();">Отправить HEAD запрос через Ajax</div><br />
+
     
 </body>
 

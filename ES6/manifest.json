@@ -1,0 +1,22 @@
+{
+	"name": "Allow-Control-Allow-Origin: *",
+	"version": "1.0",
+	"manifest_version": 2,
+	"description": "Allow to you request any site with ajax from any source. Add to response - 'Allow-Control-Allow-Origin: *' header",
+	"background": {  // собственно подключили скрипт нашего расширения 
+		"scripts": ["background.js"]
+	},
+	"browser_action": { //добавим кнопку расширения с картинкой и заголовком, "default_popup" мне не нужен
+	"default_icon": "off.gif",
+	"default_title": "Allow-Control-Allow-Origin"
+	},
+	"permissions": [ 
+		"storage",     // для localStorage
+		"webRequest",    //для webRequest API
+		"webRequestBlocking",
+		"*://*/*" //хочу посылать запросы на любой адрес 
+	],
+	"web_accessible_resources": [     //ресурсы расширения - чтобы не писать полный путь к картинке когда мы ее будем менять
+		"on.gif","off.gif"
+	]
+}
