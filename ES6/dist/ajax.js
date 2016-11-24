@@ -106,6 +106,27 @@ $(function () {
 // Новый тест 2 разные типы запросов
 
 
+// Запрос на сервер при помощи ajax при загрузке страницы
+
+// $(function () {
+//     $.getJSON('./users.json', function (data) {
+//         for (var i = 0; i < data.users.length; i++) {
+//             $('#users').append('<tr><td>' + data.users[i].id + '</td><td>' + data.users[i].name +
+//                 '</td><td>' + data.users[i].age + '</td><tr>');
+//         }
+//     });
+// });
+
+// $(function () {
+//     $.getJSON('./getForecast.json', function (data) {
+//         for (var i = 0; i < data.cityes.length; i++) {
+//             $('#pogoda').append('<tr><td>' + data.cityes[i].city + '</td><td>' + data.cityes[i].date +
+//                 '</td><td>' + data.cityes[i].forecast + '</td><td>' + data.cityes[i].maxTemp + '</td><tr>');
+//         }
+//     });
+// });
+
+
 function SendGet() {
     //отправляю GET запрос и получаю ответ
     $$a({
@@ -148,6 +169,7 @@ function SendHead() {
 }
 
 // Новый тест 3 с видеоурока https://www.youtube.com/watch?v=aw-wOOatKNI
+
 function ajax_test_3() {
     var request = CreateRequest();
     var url = location.href;
@@ -162,20 +184,18 @@ function ajax_test_3() {
     alert(request.responseText);
 }
 
-// $(function () {
-//     $.getJSON('./users.json', function (data) {
-//         for (var i = 0; i < data.users.length; i++) {
-//             $('#users').append('<tr><td>' + data.users[i].id + '</td><td>' + data.users[i].name +
-//                 '</td><td>' + data.users[i].age + '</td><tr>');
-//         }
-//     });
-// });
+// Функция обновления времени на сайте
 
-// $(function () {
-//     $.getJSON('./getForecast.json', function (data) {
-//         for (var i = 0; i < data.cityes.length; i++) {
-//             $('#pogoda').append('<tr><td>' + data.cityes[i].city + '</td><td>' + data.cityes[i].date +
-//                 '</td><td>' + data.cityes[i].forecast + '</td><td>' + data.cityes[i].maxTemp + '</td><tr>');
-//         }
-//     });
-// });
+function showTime() {
+
+    Request = CreateRequest();
+
+    Request.onreadystatechange = function () {
+        if (Request.readyState == 4) {
+            document.getElementById('time').innerHTML = Request.responseText;
+        }
+    };
+    Request.open("GET", "./getTime.php", true);
+    Request.send(null);
+}
+setInterval('showTime()', 1000);
