@@ -200,8 +200,6 @@ function ajax_test_3() {
 
 function showTime() {
 
-
-
     Request = CreateRequest();
 
     Request.onreadystatechange = function() {
