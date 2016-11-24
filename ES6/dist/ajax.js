@@ -197,5 +197,8 @@ function showTime() {
     };
     Request.open("GET", "./getTime.php", true);
     Request.send(null);
+
+    // Реализация на JQuery
+    // $('#time').load('getTime.php');
 }
 setInterval('showTime()', 1000);
